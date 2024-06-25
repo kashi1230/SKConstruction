@@ -22,7 +22,7 @@ class Assets {
   static const String iconsJcb = 'assets/icons/jcb.svg';
   static const String iconsLabours = 'assets/icons/labours.svg';
   static const String iconsLibrarianSvgrepoCom = 'assets/icons/librarian-svgrepo-com.svg';
-  static const String iconsLogo = 'assets/icons/logo.png';
+  static const String iconsLogo = 'assets/icons/logo.jpg';
   static const String iconsMetal = 'assets/icons/metal.svg';
   static const String iconsMoney = 'assets/icons/money.svg';
   static const String iconsOphthalmologySvgrepoCom = 'assets/icons/ophthalmology-svgrepo-com.svg';

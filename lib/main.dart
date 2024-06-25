@@ -8,11 +8,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import 'Request_Stock/requirmeentpage.dart';
+import 'rp.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => RequestProvider()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -26,6 +35,27 @@ class MyApp extends StatelessWidget {
       ),
       home:LoginScreen(),
     );
+  }
+}
+class ValueProvider extends ChangeNotifier {
+  List<int> _value = [];
+  String _salePermission = "";
+  String _purchasePermission = "";
+
+  List<int> get value => _value;
+
+  void setValue(List<int> newValue) {
+    _value = newValue;
+    notifyListeners();
+  }
+
+  String get salePermission => _salePermission;
+  String get purchasePermission => _purchasePermission;
+
+  void setPermissions(String salePerm, String purchasePerm) {
+    _salePermission = salePerm;
+    _purchasePermission = purchasePerm;
+    notifyListeners();
   }
 }
 

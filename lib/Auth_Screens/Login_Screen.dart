@@ -1,4 +1,4 @@
-import 'dart:convert';
+
 import 'package:construction2/homescreen.dart';
 import 'package:construction2/main.dart';
 import 'package:construction2/widgets/customTextFeild.dart';
@@ -73,10 +73,10 @@ class _LoginScreenState extends State<LoginScreen> {
         slivers: [
           SliverAppBar(
             backgroundColor: Colors.transparent,
-            expandedHeight: 180.0,
+            expandedHeight: 220.0,
             flexibleSpace: FlexibleSpaceBar(
               background: Image.asset(
-                'assets/icons/home.png', // Replace with your logo image path
+                'assets/icons/logo.jpg', // Replace with your logo image path
                 height: 180,
                 width: 210,
               ),

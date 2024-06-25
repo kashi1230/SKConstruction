@@ -1,8 +1,7 @@
-import 'package:construction2/widgets/customTextFeild.dart';
+import 'package:construction2/rp.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-import 'requirmeentpage.dart';
+import 'package:provider/provider.dart';
 
 class FormScreen extends StatefulWidget {
   @override
@@ -34,28 +33,33 @@ class _FormScreenState extends State<FormScreen> {
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => RequirementsListScreen(
-            productName: _productNameController.text,
-            date: DateFormat.yMd().format(DateTime.now()),
-            totalQuantity: _totalQuantity,
-          ),
-        ),
+      final request = Request(
+        productName: _productNameController.text,
+        date: DateFormat.yMd().format(DateTime.now()),
+        totalQuantity: _totalQuantity,
+        status: 'Pending',
       );
+
+      Provider.of<RequestProvider>(context, listen: false).addRequest(request);
+
+      // Reset form
+      _formKey.currentState!.reset();
+      _calculateTotalQuantity();
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final requests = Provider.of<RequestProvider>(context).requests;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Product Form'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Form(
+        child: requests.isEmpty
+            ? Form(
           key: _formKey,
           child: ListView(
             children: [
@@ -116,22 +120,13 @@ class _FormScreenState extends State<FormScreen> {
               Text('Total Quantity: $_totalQuantity'),
               SizedBox(height: 20),
               GestureDetector(
-                onTap: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Request Submited!'),
-                      duration: Duration(seconds: 2),
-                    ),
-
-                  );
-                  _submitForm();
-                },
+                onTap: _submitForm,
                 child: AnimatedContainer(
                   duration: Duration(milliseconds: 300),
                   width: 200,
                   height: 50,
                   decoration: BoxDecoration(
-                    color: Colors.blue, // Use your custom color
+                    color: Colors.blue,
                     borderRadius: BorderRadius.circular(25),
                   ),
                   child: Center(
@@ -148,6 +143,69 @@ class _FormScreenState extends State<FormScreen> {
               ),
             ],
           ),
+        )
+            : Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemCount: requests.length,
+                itemBuilder: (context, index) {
+                  final request = requests[index];
+                  return Container(
+                    margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Colors.blueAccent, Colors.lightBlueAccent],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: ListTile(
+                      leading: Icon(Icons.check_circle, color: Colors.white),
+                      title: Text(
+                        request.productName,
+                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Text(
+                        'Date: ${request.date}\nStatus: ${request.status}\nTotal Quantity: ${request.totalQuantity}',
+                        style: TextStyle(color: Colors.white70),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+            SizedBox(height: 20),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  _formKey.currentState!.reset();
+                  _calculateTotalQuantity();
+                });
+              },
+              child: AnimatedContainer(
+                duration: Duration(milliseconds: 300),
+                width: 200,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                child: Center(
+                  child: Text(
+                    'Add More Requests',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+          ],
         ),
       ),
     );

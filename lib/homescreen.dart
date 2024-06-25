@@ -11,17 +11,34 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: TextBuilder(text: "Service Section",fontWeight: FontWeight.bold,),
-      // ),
+      appBar:  AppBar(
+        title: TextBuilder(text: "Services",fontWeight: FontWeight.bold,),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.account_circle,color: Colors.black,size: 30,),
+            onPressed: () {
+              // Handle profile icon press
+              print('Profile icon pressed');
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.logout,color: Colors.redAccent,),
+            onPressed: () {
+              // Handle logout button press
+              print('Logout button pressed');
+              // Here you can add your logout logic, e.g., navigate to login screen
+            },
+          ),
+        ],
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          SizedBox(height: 40,),
+          SizedBox(height: 20,),
           Image.asset(
             'assets/icons/home.png', // Replace with your logo image path
-            height: 180,
-            width: 210,
+            height: 200,
+            width: 230,
           ),
           SizedBox(height: 25,),
           Row(
@@ -30,30 +47,30 @@ class HomeScreen extends StatelessWidget {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
-                 child: GestureDetector(
-                   onTap: () {
-                     Get.to(()=>RequestScreen());
-                   },
-                   child: AnimatedContainer(
-                     duration: Duration(milliseconds: 300),
-                     width: 200,
-                     height: 50,
-                     decoration: BoxDecoration(
-                       color: Colors.blueAccent, // Use your custom color
-                       borderRadius: BorderRadius.circular(25),
-                     ),
-                     child: Center(
-                       child: Text(
-                         'Request Stock',
-                         style: TextStyle(
-                           color: Colors.white,
-                           fontSize: 18,
-                           fontWeight: FontWeight.bold,
-                         ),
-                       ),
-                     ),
-                   ),
-                 ),
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.to(()=>RequestScreen());
+                    },
+                    child: AnimatedContainer(
+                      duration: Duration(milliseconds: 300),
+                      width: 200,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.blueAccent, // Use your custom color
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Request Stock',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
               Expanded(
